@@ -2,14 +2,6 @@
 
 set -e
 
-cat << EOS | sed -i '1r /dev/stdin' ${INPUT_PACKAGE_DIRECTORY_PATH}/CHANGELOG.md
-
-## [${INPUT_RELEASE_VERSION##v}] - $(date "+%Y-%m-%d")
-
-${INPUT_RELEASE_SUMMARY}
-
-$(echo "${INPUT_RELEASE_BODY}" | sed 's/^#/\#\#/')
-EOS
 cat ${INPUT_PACKAGE_DIRECTORY_PATH}/package.json | jq -Mr '. | .version = "'"${INPUT_RELEASE_VERSION##v}"'"' > /tmp/package.json
 mv /tmp/package.json ${INPUT_PACKAGE_DIRECTORY_PATH}/package.json
 
